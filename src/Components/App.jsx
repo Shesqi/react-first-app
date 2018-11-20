@@ -1,5 +1,5 @@
 import React from 'react';
-import {Timer} from './Timer';
+import {UsersPanel} from './UsersPanel';
 
 /**
  * Компонент-приложение (реализован через компонент-класс).
@@ -24,7 +24,7 @@ class App extends React.Component {
 
     render () {
         return (
-            <Timer counter={this.state.startNumber} />
+            <UsersPanel />
         )
     }
 }
