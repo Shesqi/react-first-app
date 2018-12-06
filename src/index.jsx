@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {App} from './Components/App';
+import { TypeAheadApp } from './Components/TypeAheadApp';
 
 import "./styles";
+import "./typeahead.less";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<TypeAheadApp />, document.getElementById("root"));
