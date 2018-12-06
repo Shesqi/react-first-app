@@ -73,9 +73,9 @@ export class TypeAheadApp extends React.PureComponent {
         return (
             <div className="app-container">
                 <h1>TYPEAHEAD</h1>
-                <TypeAheadFilter />
+                {/* <TypeAheadFilter /> */}
                 <TypeAheadInput onChange={this.handlerOnChangeInput}/>
-                {this.state.isDropDownVisible && this.state.requestSuccess ? <TypeAheadDropDown items={this.state.items} text=""/> : ''}
+                {this.state.isDropDownVisible && this.state.requestSuccess ? <TypeAheadDropDown items={this.state.items} /> : ''}
             </div>
         )
     }
