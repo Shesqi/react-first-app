@@ -5,17 +5,24 @@ export class TypeAheadFilter extends React.PureComponent {
         super(props);
 
         this.state = {
-            //
+            isChecked: false
         };
+    }
+
+    handlerOnChangeCheckbox = (event) => {
+        this.props.onChange('filter');
+
+        console.log('checkbox triggered in filter');
     }
 
     render () {
         return (
             <div>
-                <span>Filter: </span>
-                <input type="checkbox"/>
-                <input type="checkbox"/>
-                <input type="checkbox"/>
+                <span>Native name:</span>
+                <input 
+                    type="checkbox" 
+                    onChange={this.props.onChange}
+                />
             </div>
         )
     }

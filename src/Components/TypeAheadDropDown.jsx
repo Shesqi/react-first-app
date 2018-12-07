@@ -6,29 +6,21 @@ export class TypeAheadDropDown extends React.PureComponent {
 
         this.state = {
             isVisible: this.props.isVisible,
-            text: this.props.text
+            text: this.props.text,
+            listView: this.props.listView
         }
-    }
-
-    checkPropsItems () {
-        return typeof(this.props.items)
     }
 
     render () {
         return (
             <div className="dropdown-container">
-                {
-                    this.props.items.map((item) => {
-                        return (
-                        <div className="dropdown-item" key={item.name}>
-                        <img src={item.flag} alt="" className="dropdown-flag"/>
-                            <a href="">{item.nativeName}</a> [{item.capital}]
-                        </div>
-                        )
-                    })
-                }
-
-                {this.state.isVisible ? <span>{this.state.text}</span> : ""}
+            {
+                this.props.items.map (item => {
+                    return (
+                        React.createElement(this.props.listView, {item, key: item.name}) // {item: item}
+                    )
+                })
+            }
             </div>
         )
     }

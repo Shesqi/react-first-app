@@ -11,15 +11,36 @@ export class TypeAheadApp extends React.PureComponent {
             inputText: "",
             items: [],
             isDropDownVisible: false,
-            requestSuccess: false
+            requestSuccess: false,
+            isChecked: false,
+            currentLayout: this.listViewMap
         };
     }
 
+    debounce(func, wait, immediate) {
+        let timeout;
+        return function() {
+            let context = this, args = arguments;
+            let later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            let callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    };
+
     componentDidUpdate(prevProps, prevState) {
         if (prevState.inputText !== this.state.inputText) {
-            setTimeout(() => {
+            // setTimeout(() => {
+            //     this.sendAjax(this.state.inputText);
+            //   }, 600);
+
+            const myDebounce = this.debounce(function () {
                 this.sendAjax(this.state.inputText);
-              }, 600);
+            }, 900);
 
             this.setState ({
                 isDropDownVisible: this.state.inputText !== '' && this.state.requestSuccess ? true : false
@@ -33,7 +54,15 @@ export class TypeAheadApp extends React.PureComponent {
                 inputText: value
             });
         }
-    };
+    }
+
+    handlerOnChangeCheckbox = (event) => {
+        this.setState({
+            isChecked: true
+        })
+
+        console.log('checkbox triggered in app' + event);
+    }
 
     showAjaxResponse = (response) => {
         if (this.state.inputText !== null && this.state.inputText !== '') {
@@ -45,7 +74,7 @@ export class TypeAheadApp extends React.PureComponent {
 
     sendAjax (inputText) {
         const request = new XMLHttpRequest(),
-              url = "https://restcountries.eu/rest/v2/name/" + inputText + "?fullText=false";
+              url = this.props.url + inputText + this.props.urlModificator;
 
         request.open("GET", url, true);
         request.responseType = "json";
@@ -73,9 +102,14 @@ export class TypeAheadApp extends React.PureComponent {
         return (
             <div className="app-container">
                 <h1>TYPEAHEAD</h1>
-                {/* <TypeAheadFilter /> */}
+                <TypeAheadFilter onChange={this.handlerOnChangeCheckbox} />
                 <TypeAheadInput onChange={this.handlerOnChangeInput}/>
-                {this.state.isDropDownVisible && this.state.requestSuccess ? <TypeAheadDropDown items={this.state.items} /> : ''}
+
+                {this.state.isDropDownVisible && this.state.requestSuccess ? 
+                    <TypeAheadDropDown 
+                        items={this.state.items} 
+                        listView={this.props.listView} 
+                    /> : ''}
             </div>
         )
     }
