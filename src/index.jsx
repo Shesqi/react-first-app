@@ -5,8 +5,8 @@ import { TypeAheadApp } from './Components/TypeAheadApp';
 import "./styles";
 import "./typeahead.less";
 
-class APPP extends React.Component {
-    render() {
+class LaunchApp extends React.Component {
+    render () {
         return(
             <TypeAheadApp url="https://restcountries.eu/rest/v2/name/" urlModificator="?fullText=false" listView={CustomItem} />
         )
@@ -14,9 +14,9 @@ class APPP extends React.Component {
 }
 
 class CustomItem extends React.Component {
-    render() {
+    render () {
         return(
-            <div className="dropdown-item" key={this.props.item.name}>
+            <div className="dropdown-item hello" key={this.props.item.name}>
                 <img src={this.props.item.flag} alt="" className="dropdown-flag" />
                 <a href="">{this.props.item.nativeName}</a> [{this.props.item.capital}]
             </div>
@@ -24,8 +24,7 @@ class CustomItem extends React.Component {
     }
 }
 
-
-ReactDOM.render(<APPP />, document.getElementById("root"));
+ReactDOM.render (<LaunchApp />, document.getElementById("root"));
 
 
 

@@ -5,7 +5,6 @@ export class TypeAheadDropDown extends React.PureComponent {
         super(props);
 
         this.state = {
-            isVisible: this.props.isVisible,
             text: this.props.text,
             listView: this.props.listView
         }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { DebounceInput } from 'react-debounce-input';
 
 export class TypeAheadInput extends React.PureComponent {
     constructor(props) {
@@ -17,12 +18,12 @@ export class TypeAheadInput extends React.PureComponent {
         this.props.onChange(event.target.value);
     };
 
-    render() {
+    render () {
         return (
-            <input
-                type='text'
+            <DebounceInput
                 className='typeahead-input'
-                value={this.state.inputText}
+                minLength={1}
+                debounceTimeout={500}
                 onChange={this.handlerOnChangeInput}
             />
         )
