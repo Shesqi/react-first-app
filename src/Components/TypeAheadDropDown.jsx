@@ -1,7 +1,7 @@
 import React from 'react';
 
 export class TypeAheadDropDown extends React.PureComponent {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -10,16 +10,16 @@ export class TypeAheadDropDown extends React.PureComponent {
         }
     }
 
-    render () {
+    render() {
         return (
             <div className="dropdown-container">
-            {
-                this.props.items.map (item => {
-                    return (
-                        React.createElement(this.props.listView, {item, key: item.name}) // {item: item}
-                    )
-                })
-            }
+                {
+                    this.props.items.map(item => {
+                        return (
+                            React.createElement(this.props.listView, {item, key: item.name}) // {item: item}
+                        )
+                    })
+                }
             </div>
         )
     }

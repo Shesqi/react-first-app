@@ -1,7 +1,7 @@
 import React from 'react';
-import { TypeAheadInput } from './TypeaheadInput';
-import { TypeAheadDropDown } from './TypeAheadDropDown';
-// import { TypeAheadFilter } from "./TypeAheadFilter";
+import {TypeAheadInput} from './TypeaheadInput';
+import {TypeAheadDropDown} from './TypeAheadDropDown';
+import {TypeAheadFilter} from "./TypeAheadFilter";
 
 export class TypeAheadApp extends React.PureComponent {
     constructor(props) {
@@ -10,7 +10,6 @@ export class TypeAheadApp extends React.PureComponent {
         this.state = {
             inputText: '',
             items: [],
-            isDropDownVisible: false,
             requestSuccess: false,
             isChecked: false,
             currentLayout: this.listViewMap
@@ -19,15 +18,14 @@ export class TypeAheadApp extends React.PureComponent {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.inputText !== this.state.inputText) {
-
             this.sendAjax(this.state.inputText);
-            this.setState ({isDropDownVisible: this.state.inputText !== '' && this.state.requestSuccess})
+            this.setState({requestSuccess: true})
         }
     }
 
     handlerOnChangeInput = (inputText) => {
         if (inputText !== null) {
-            this.setState({ inputText });
+            this.setState({inputText});
         }
     };
 
@@ -39,23 +37,27 @@ export class TypeAheadApp extends React.PureComponent {
 
     showAjaxResponse = (response) => {
         if (this.state.inputText !== null && this.state.inputText !== '') {
-            this.setState ({
+            this.setState({
                 items: response
             })
         }
     };
 
-    sendAjax (inputText) {
-        const request = new XMLHttpRequest(),
-              url = this.props.url + inputText + this.props.urlModificator;
-
-        request.open("GET", url, true);
-        request.responseType = "json";
-        request.onload = () => {
-            debugger
-            const requestSuccess = request.response !== null && request.status !== 404;
-            this.setState ({ requestSuccess })
-        };
+    sendAjax(inputText) {
+        return new Promise((resolve, reject) => {
+            const request = new XMLHttpRequest(),
+                url = this.props.url + inputText + this.props.urlModificator;
+            
+            request.open("GET", url, true);
+            request.responseType = "json";
+            request.onload = () => {
+                const requestSuccess = request.response !== null && request.status !== 404;
+                this.showAjaxResponse(request.response);
+                this.setState({requestSuccess})
+            };
+            
+            request.send();
+        });
 
 
         // const arr = [
@@ -67,16 +69,13 @@ export class TypeAheadApp extends React.PureComponent {
         // ]
 
         // const newArr = arr.map( ({name, age}) => `${age}-${name}`)
-        
-
-        request.send();
     };
 
-    render () {
+    render() {
         return (
             <div className="app-container">
                 <h1>TYPEAHEAD</h1>
-                {/* <TypeAheadFilter onChange={this.handlerOnChangeCheckbox} /> */}
+                <TypeAheadFilter onChange={this.handlerOnChangeCheckbox}/>
                 <TypeAheadInput onChange={this.handlerOnChangeInput}/>
 
                 {this.state.requestSuccess ?
